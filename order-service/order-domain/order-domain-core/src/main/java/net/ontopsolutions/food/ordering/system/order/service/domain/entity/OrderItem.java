@@ -53,8 +53,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         return subTotal;
     }
 
-
-
     public static final class Builder {
         private OrderItemId orderItemId;
         private Product product;

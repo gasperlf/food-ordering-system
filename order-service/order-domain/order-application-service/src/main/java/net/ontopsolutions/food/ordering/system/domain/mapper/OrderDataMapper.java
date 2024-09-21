@@ -3,6 +3,7 @@ package net.ontopsolutions.food.ordering.system.domain.mapper;
 import net.ontopsolutions.food.ordering.system.domain.dto.create.CreateOrderCommand;
 import net.ontopsolutions.food.ordering.system.domain.dto.create.CreateOrderResponse;
 import net.ontopsolutions.food.ordering.system.domain.dto.create.OrderAddress;
+import net.ontopsolutions.food.ordering.system.domain.dto.track.TrackOrderResponse;
 import net.ontopsolutions.food.ordering.system.domain.valueobject.*;
 import net.ontopsolutions.food.ordering.system.order.service.domain.entity.Order;
 import net.ontopsolutions.food.ordering.system.order.service.domain.entity.OrderItem;
@@ -19,7 +20,7 @@ import java.util.UUID;
 public class OrderDataMapper {
 
    public Restaurant mapCreateOrderCommandAsRestaurant(CreateOrderCommand command) {
-        return Restaurant.Builder.builder()
+        return Restaurant.builder()
                 .restaurantId(new RestaurantId(command.getRestaurantId()))
                 .products(mapOrderItemsAsProducts(command.getOrderItems()))
                 .build();
@@ -66,10 +67,19 @@ public class OrderDataMapper {
                orderAddress.getCity());
     }
 
-    public CreateOrderResponse mapOrderAsCreateOrderResponse(Order order) {
+    public CreateOrderResponse mapOrderAsCreateOrderResponse(Order order, String message) {
        return CreateOrderResponse.builder()
                .orderTrackingId(order.getTrackingId().getValue())
                .orderStatus(order.getOrderStatus())
+               .message(message)
+               .build();
+    }
+
+    public TrackOrderResponse mapOrderAsTrackOrderResponse(Order order) {
+       return TrackOrderResponse.builder()
+               .orderTrackingId(order.getTrackingId().getValue())
+               .orderStatus(order.getOrderStatus())
+               .failureMessages(order.getFailureMessages())
                .build();
     }
 }

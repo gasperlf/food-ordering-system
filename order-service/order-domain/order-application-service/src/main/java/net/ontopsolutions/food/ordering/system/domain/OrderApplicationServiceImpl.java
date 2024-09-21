@@ -17,7 +17,8 @@ class OrderApplicationServiceImpl implements OrderApplicationService {
     private final OrderCreateCommandHandler createOrderCommandHandler;
     private final OrderTrackCommandHandler orderTrackCommandHandler;
 
-    public OrderApplicationServiceImpl(OrderCreateCommandHandler createOrderCommandHandler, OrderTrackCommandHandler orderTrackCommandHandler) {
+    public OrderApplicationServiceImpl(OrderCreateCommandHandler createOrderCommandHandler,
+                                       OrderTrackCommandHandler orderTrackCommandHandler) {
         this.createOrderCommandHandler = createOrderCommandHandler;
         this.orderTrackCommandHandler = orderTrackCommandHandler;
     }
