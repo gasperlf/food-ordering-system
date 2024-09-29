@@ -20,6 +20,7 @@
         <module>order-service</module>
         <module>common</module>
         <module>infrastructure</module>
+        <module>customer-service</module>
     </modules>
 
     <properties>
@@ -91,6 +92,12 @@
             <dependency>
                 <groupId>net.ontopsolutions.food.ordering.system</groupId>
                 <artifactId>kafka-config-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.ontopsolutions.food.ordering.system</groupId>
+                <artifactId>common-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
