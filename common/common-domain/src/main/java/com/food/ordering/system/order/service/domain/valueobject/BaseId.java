@@ -13,6 +13,7 @@ public abstract class BaseId<T> {
     public T getValue() {
         return value;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,6 +21,7 @@ public abstract class BaseId<T> {
         BaseId<?> id = (BaseId<?>) o;
         return Objects.equals(value, id.value);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(value);

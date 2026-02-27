@@ -10,7 +10,6 @@ public class StreetAddress {
     private final String postalCode;
     private final String city;
 
-
     public StreetAddress(UUID id, String street, String postalCode, String city) {
         this.id = id;
         this.street = street;
@@ -38,7 +37,9 @@ public class StreetAddress {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         StreetAddress that = (StreetAddress) o;
-        return Objects.equals(street, that.street) && Objects.equals(postalCode, that.postalCode) && Objects.equals(city, that.city);
+        return Objects.equals(street, that.street)
+                && Objects.equals(postalCode, that.postalCode)
+                && Objects.equals(city, that.city);
     }
 
     @Override

@@ -18,13 +18,13 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     }
 
     boolean isPriceValid() {
-        return price.isGreaterThanZero() &&
-                price.equals(product.getPrice()) &&
-                price.multiply(quantity).equals(subTotal);
+        return price.isGreaterThanZero()
+                && price.equals(product.getPrice())
+                && subTotal.equals(price.multiply(quantity));
     }
 
     private OrderItem(Builder builder) {
-       super.setId(builder.orderItemId);
+        super.setId(builder.orderItemId);
         product = builder.product;
         quantity = builder.quantity;
         price = builder.price;
