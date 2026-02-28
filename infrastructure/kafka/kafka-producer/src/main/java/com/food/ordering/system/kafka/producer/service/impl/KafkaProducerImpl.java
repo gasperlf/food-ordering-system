@@ -22,18 +22,11 @@ public class KafkaProducerImpl <K extends Serializable, V extends SpecificRecord
     private final KafkaTemplate<K, V> kafkaTemplate;
 
     @Override
-    public void send(String topicName, K key, V message) {
+    public CompletableFuture<SendResult<K, V>> send(String topicName, K key, V message) {
 
         log.info("Sending message {} to topic {} with key {}",message, topicName, key);
         CompletableFuture<SendResult<K, V>> send = kafkaTemplate.send(topicName, key, message);
-        send.thenAccept(result -> {
-            RecordMetadata recordMetadata = result.getRecordMetadata();
-            log.info("Message sent successfully to topic {} partition {} offset {} with key {}",
-                    message,recordMetadata.partition(),
-                    recordMetadata.offset(), topicName);
-        }).exceptionally(ex->{
-            throw new KafkaProducerException("Failed to send message with key " + key + " and message " + message);
-        });
+        return send;
     }
 
     @PreDestroy

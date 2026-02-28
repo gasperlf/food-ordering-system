@@ -151,8 +151,7 @@ public class OrderApplicationServiceTest {
     @Test
     void shouldCreateOrder() {
 
-        Customer customer = new Customer();
-        customer.setId(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
 
         Restaurant restaurantResponse =
                 Restaurant.builder()
@@ -187,8 +186,7 @@ public class OrderApplicationServiceTest {
     @Test
     void shouldCreateOrderWithWrongPrice() {
 
-        Customer customer = new Customer();
-        customer.setId(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
 
         Restaurant restaurantResponse =
                 Restaurant.builder()
@@ -224,8 +222,7 @@ public class OrderApplicationServiceTest {
     @Test
     void shouldCreateOrderWithWrongProductPrice() {
 
-        Customer customer = new Customer();
-        customer.setId(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
 
         Restaurant restaurantResponse =
                 Restaurant.builder()
@@ -266,8 +263,7 @@ public class OrderApplicationServiceTest {
     @Test
     void shouldCreateOrderWithPassiveRestaurant() {
 
-        Customer customer = new Customer();
-        customer.setId(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
 
         Restaurant restaurantResponse =
                 Restaurant.builder()
