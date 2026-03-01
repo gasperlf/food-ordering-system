@@ -1,6 +1,12 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 import com.food.ordering.system.order.service.domain.valueobject.OrderStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,11 +22,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
 @Getter
 @Setter
 @Slf4j
@@ -31,8 +32,7 @@ import java.util.UUID;
 @Table(name = "orders")
 public class OrderEntity {
 
-    @Id
-    private UUID id;
+    @Id private UUID id;
 
     private UUID customerId;
     private UUID restaurantId;
@@ -41,6 +41,7 @@ public class OrderEntity {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
     private String failureMessages;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)

@@ -1,5 +1,8 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
+import java.util.Objects;
+import java.util.UUID;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,9 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
-import java.util.UUID;
-
 @Getter
 @Setter
 @Slf4j
@@ -25,8 +25,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "order_address")
 public class OrderAddressEntity {
-    @Id
-    private UUID id;
+    @Id private UUID id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID")

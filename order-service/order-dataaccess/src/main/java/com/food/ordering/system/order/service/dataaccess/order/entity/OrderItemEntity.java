@@ -1,8 +1,11 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.UUID;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
@@ -15,10 +18,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-import java.util.UUID;
-
 @Getter
 @Setter
 @Slf4j
@@ -30,8 +29,8 @@ import java.util.UUID;
 @Table(name = "order_items")
 public class OrderItemEntity {
 
-    @Id
-    private Long id;
+    @Id private Long id;
+
     @Id
     @JoinColumn(name = "ORDER_ID")
     @ManyToOne(cascade = CascadeType.ALL)
@@ -40,8 +39,7 @@ public class OrderItemEntity {
     private UUID productId;
     private Integer quantity;
     private BigDecimal price;
-    private  BigDecimal subTotal;
-
+    private BigDecimal subTotal;
 
     @Override
     public boolean equals(Object o) {

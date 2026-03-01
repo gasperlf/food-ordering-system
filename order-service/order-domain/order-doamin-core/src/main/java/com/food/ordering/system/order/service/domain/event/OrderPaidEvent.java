@@ -3,10 +3,22 @@ package com.food.ordering.system.order.service.domain.event;
 import java.time.ZonedDateTime;
 
 import com.food.ordering.system.order.service.domain.entity.Order;
+import com.food.ordering.system.order.service.domain.event.publisher.DomainEventPublisher;
 
 public class OrderPaidEvent extends OrderEvent {
 
-    public OrderPaidEvent(Order order, ZonedDateTime createdAt) {
+    private final DomainEventPublisher<OrderPaidEvent> orderPaidEventPublisher;
+
+    public OrderPaidEvent(
+            Order order,
+            ZonedDateTime createdAt,
+            DomainEventPublisher<OrderPaidEvent> orderPaidEventPublisher) {
         super(order, createdAt);
+        this.orderPaidEventPublisher = orderPaidEventPublisher;
+    }
+
+    @Override
+    public void fire() {
+        orderPaidEventPublisher.publish(this);
     }
 }

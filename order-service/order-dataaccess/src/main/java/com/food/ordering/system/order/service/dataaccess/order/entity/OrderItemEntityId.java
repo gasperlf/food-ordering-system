@@ -1,13 +1,13 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.Serializable;
-import java.util.Objects;
 
 @Getter
 @Slf4j
