@@ -5,37 +5,47 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.food.ordering.system</groupId>
-        <artifactId>order-service</artifactId>
+        <artifactId>restaurant-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>order-dataaccess</artifactId>
+    <artifactId>restaurant-container</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.food.ordering.system</groupId>
-            <artifactId>common-dataaccess</artifactId>
+            <artifactId>restaurant-domain-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.food.ordering.system</groupId>
-            <artifactId>order-application-service</artifactId>
+            <artifactId>restaurant-application-service</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>restaurant-dataaccess</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>restaurant-messaging</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

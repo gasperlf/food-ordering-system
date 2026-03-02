@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.food.ordering.system</groupId>
-        <artifactId>order-service</artifactId>
+        <artifactId>restaurant-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>order-dataaccess</artifactId>
+    <artifactId>restaurant-dataaccess</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +24,7 @@
 
         <dependency>
             <groupId>com.food.ordering.system</groupId>
-            <artifactId>order-application-service</artifactId>
+            <artifactId>restaurant-application-service</artifactId>
         </dependency>
 
         <dependency>
@@ -38,4 +38,5 @@
         </dependency>
 
     </dependencies>
+
 </project>
