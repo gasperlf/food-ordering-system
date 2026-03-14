@@ -37,6 +37,12 @@ after add common module
 
 ![order-request-simple-flow.png](order-service/docs/order-request-simple-flow.png)
 
+## Customer service
+
+## Payment service
+
+## Restaurant service
+
 ## Kafka
 
 #### Zookeeper
@@ -61,3 +67,13 @@ docker compose -f common.yaml -f init_kafka.yaml up -d
 browser localhost:9000 abd add cluster
 name: food-ordering-system
 zookeeper hot: zookeeper:2181
+
+## Outbox Pattern
+
+![outbox.png](docs/outbox.png)
+
+![outbox-happy-flow.png](docs/outbox-happy-flow.png)
+
+![outbox-approval-failure.png](docs/outbox-approval-failure.png)
+
+![outbox-payment-failure.png](docs/outbox-payment-failure.png)
