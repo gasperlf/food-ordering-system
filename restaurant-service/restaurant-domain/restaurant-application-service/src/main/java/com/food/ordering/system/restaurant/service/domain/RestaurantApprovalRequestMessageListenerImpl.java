@@ -3,7 +3,6 @@ package com.food.ordering.system.restaurant.service.domain;
 import org.springframework.stereotype.Service;
 
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
-import com.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
 import com.food.ordering.system.restaurant.service.domain.ports.input.message.listener.RestaurantApprovalRequestMessageListener;
 
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,7 @@ public class RestaurantApprovalRequestMessageListenerImpl
 
     @Override
     public void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest) {
-        OrderApprovalEvent orderApprovalEvent =
-                this.restaurantApprovalRequestHelper.persistOrderApproval(
-                        restaurantApprovalRequest);
-        orderApprovalEvent.fire();
+
+        this.restaurantApprovalRequestHelper.persistOrderApproval(restaurantApprovalRequest);
     }
 }

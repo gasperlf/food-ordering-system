@@ -1,5 +1,6 @@
 package com.food.ordering.system.restaurant.service.messaging.listener.kafka;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -9,8 +10,11 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import org.postgresql.util.PSQLState;
+
 import com.food.ordering.system.kafka.consumer.KafkaConsumer;
 import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
+import com.food.ordering.system.restaurant.service.domain.exception.RestaurantApplicationServiceException;
 import com.food.ordering.system.restaurant.service.domain.exception.RestaurantNotFoundException;
 import com.food.ordering.system.restaurant.service.domain.ports.input.message.listener.RestaurantApprovalRequestMessageListener;
 import com.food.ordering.system.restaurant.service.messaging.mapper.RestaurantMessagingDataMapper;
@@ -55,10 +59,26 @@ public class RestaurantApprovalRequestKafkaListener
                                         .restaurantApprovalRequestAvroModelToRestaurantApprovalRequest(
                                                 approvalRequest));
                     } catch (DataAccessException e) {
-                        log.error(
-                                "Caught optimistic locking exception in"
-                                    + " RestaurantApprovalResponseKafkaListener for order id: {}",
-                                approvalRequest.getOrderId());
+                        SQLException sqlException = (SQLException) e.getRootCause();
+                        if (sqlException != null
+                                && sqlException.getSQLState() != null
+                                && PSQLState.UNIQUE_VIOLATION
+                                        .getState()
+                                        .equals(sqlException.getSQLState())) {
+                            // NO-OP for unique constraint exception
+                            log.error(
+                                    "Caught unique constraint exception with sql state: {} in"
+                                        + " RestaurantApprovalRequestKafkaListener for order id:"
+                                        + " {}",
+                                    sqlException.getSQLState(),
+                                    approvalRequest.getOrderId());
+                        } else {
+                            throw new RestaurantApplicationServiceException(
+                                    "Throwing DataAccessException in"
+                                            + " RestaurantApprovalRequestKafkaListener: "
+                                            + e.getMessage(),
+                                    e);
+                        }
                     } catch (RestaurantNotFoundException e) {
                         log.error(
                                 "No restaurant found for restaurant id: {}, and order id: {}",

@@ -11,49 +11,10 @@ import com.food.ordering.system.order.service.domain.valueobject.ProductId;
 import com.food.ordering.system.order.service.domain.valueobject.RestaurantOrderStatus;
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
 import com.food.ordering.system.restaurant.service.domain.entity.Product;
-import com.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
-import com.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
+import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderEventPayload;
 
 @Component
 public class RestaurantMessagingDataMapper {
-
-    public RestaurantApprovalResponseAvroModel
-            orderApprovedEventToRestaurantApprovalRequestAvroModel(
-                    OrderApprovedEvent orderApprovedEvent) {
-        return RestaurantApprovalResponseAvroModel.newBuilder()
-                .setId(UUID.randomUUID())
-                .setSagaId(null)
-                .setOrderId(orderApprovedEvent.getOrderApproval().getOrderId().getValue())
-                .setRestaurantId(orderApprovedEvent.getOrderApproval().getRestaurantId().getValue())
-                .setCreatedAt(orderApprovedEvent.getCreatedAt().toInstant())
-                .setOrderApprovalStatus(
-                        OrderApprovalStatus.valueOf(
-                                orderApprovedEvent
-                                        .getOrderApproval()
-                                        .getOrderApprovalStatus()
-                                        .name()))
-                .setFailureMessages(orderApprovedEvent.getFailureMessages())
-                .build();
-    }
-
-    public RestaurantApprovalResponseAvroModel
-            orderRejectedEventToRestaurantApprovalRequestAvroModel(
-                    OrderRejectedEvent orderRejectedEvent) {
-        return RestaurantApprovalResponseAvroModel.newBuilder()
-                .setId(UUID.randomUUID())
-                .setSagaId(null)
-                .setOrderId(orderRejectedEvent.getOrderApproval().getOrderId().getValue())
-                .setRestaurantId(orderRejectedEvent.getOrderApproval().getRestaurantId().getValue())
-                .setCreatedAt(orderRejectedEvent.getCreatedAt().toInstant())
-                .setOrderApprovalStatus(
-                        OrderApprovalStatus.valueOf(
-                                orderRejectedEvent
-                                        .getOrderApproval()
-                                        .getOrderApprovalStatus()
-                                        .name()))
-                .setFailureMessages(orderRejectedEvent.getFailureMessages())
-                .build();
-    }
 
     public RestaurantApprovalRequest restaurantApprovalRequestAvroModelToRestaurantApprovalRequest(
             RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel) {
@@ -79,6 +40,21 @@ public class RestaurantMessagingDataMapper {
                                                         .quantity(avroModel.getQuantity())
                                                         .build())
                                 .toList())
+                .build();
+    }
+
+    public RestaurantApprovalResponseAvroModel
+            orderEventPayloadToRestaurantApprovalResponseAvroModel(
+                    String sagaId, OrderEventPayload orderEventPayload) {
+        return RestaurantApprovalResponseAvroModel.newBuilder()
+                .setId(UUID.randomUUID())
+                .setSagaId(UUID.fromString(sagaId))
+                .setOrderId(UUID.fromString(orderEventPayload.getOrderId()))
+                .setRestaurantId(UUID.fromString(orderEventPayload.getRestaurantId()))
+                .setCreatedAt(orderEventPayload.getCreatedAt().toInstant())
+                .setOrderApprovalStatus(
+                        OrderApprovalStatus.valueOf(orderEventPayload.getOrderApprovalStatus()))
+                .setFailureMessages(orderEventPayload.getFailureMessages())
                 .build();
     }
 }

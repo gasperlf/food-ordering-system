@@ -5,7 +5,6 @@ import static com.food.ordering.system.order.service.domain.DomainConstants.ZONE
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import com.food.ordering.system.order.service.domain.event.publisher.DomainEventPublisher;
 import com.food.ordering.system.order.service.domain.valueobject.OrderApprovalStatus;
 import com.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import com.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
@@ -18,11 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RestaurantDomainServiceImpl implements RestaurantDomainService {
 
     @Override
-    public OrderApprovalEvent validateOrder(
-            Restaurant restaurant,
-            List<String> failureMessages,
-            DomainEventPublisher<OrderApprovedEvent> orderApprovedEventPublisher,
-            DomainEventPublisher<OrderRejectedEvent> orderRejectedEventPublisher) {
+    public OrderApprovalEvent validateOrder(Restaurant restaurant, List<String> failureMessages) {
         restaurant.validateOrder(failureMessages);
         log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
 
@@ -35,8 +30,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
                     restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZONE_UTC),
-                    orderApprovedEventPublisher);
+                    ZonedDateTime.now(ZONE_UTC));
         } else {
             log.info(
                     "Order is rejected for order id: {}",
@@ -46,8 +40,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
                     restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZONE_UTC),
-                    orderRejectedEventPublisher);
+                    ZonedDateTime.now(ZONE_UTC));
         }
     }
 }
