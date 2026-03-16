@@ -5,7 +5,6 @@ import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE
 import org.springframework.stereotype.Service;
 
 import com.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
-import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.ports.input.listener.restaurantapproval.RestaurantApprovalResponseMessageListener;
 
 import lombok.RequiredArgsConstructor;
@@ -26,13 +25,13 @@ public class RestaurantApprovalResponseMessageListenerImpl
 
     @Override
     public void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse) {
-        OrderCancelledEvent rollback = orderApprovalSaga.rollback(restaurantApprovalResponse);
+        orderApprovalSaga.rollback(restaurantApprovalResponse);
         log.info(
-                "Publishing order cancelled event dor order id {} with failure messages {}",
+                "Order approval saga rollback operation is completed for order id {} with failure"
+                        + " messages {}",
                 restaurantApprovalResponse.getOrderId(),
                 String.join(
                         FAILURE_MESSAGE_DELIMITER,
                         restaurantApprovalResponse.getFailureMessages()));
-        rollback.fire();
     }
 }

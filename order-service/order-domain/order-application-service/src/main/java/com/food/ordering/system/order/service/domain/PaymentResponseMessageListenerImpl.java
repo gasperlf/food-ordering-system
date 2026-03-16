@@ -5,7 +5,6 @@ import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE
 import org.springframework.stereotype.Service;
 
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
-import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.food.ordering.system.order.service.domain.ports.input.listener.payment.PaymentResponseMessageListener;
 
 import lombok.RequiredArgsConstructor;
@@ -20,10 +19,10 @@ public class PaymentResponseMessageListenerImpl implements PaymentResponseMessag
 
     @Override
     public void paymentCompleted(PaymentResponse paymentResponse) {
-
-        OrderPaidEvent process = orderPaymentSaga.process(paymentResponse);
-        log.info("Publishing OrderPaidEvent for order id {}", paymentResponse.getOrderId());
-        process.fire();
+        orderPaymentSaga.process(paymentResponse);
+        log.info(
+                "Order payment saga process operation is completed for order id {}",
+                paymentResponse.getOrderId());
     }
 
     @Override

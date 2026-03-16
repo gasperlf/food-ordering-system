@@ -2,13 +2,16 @@ package com.food.ordering.system.kafka.producer.service.impl;
 
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
+import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
 import org.apache.avro.specific.SpecificRecordBase;
 
+import com.food.ordering.system.kafka.producer.exception.KafkaProducerException;
 import com.food.ordering.system.kafka.producer.service.KafkaProducer;
 
 import jakarta.annotation.PreDestroy;
@@ -24,11 +27,23 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
     private final KafkaTemplate<K, V> kafkaTemplate;
 
     @Override
-    public CompletableFuture<SendResult<K, V>> send(String topicName, K key, V message) {
-
-        log.info("Sending message {} to topic {} with key {}", message, topicName, key);
-        CompletableFuture<SendResult<K, V>> send = kafkaTemplate.send(topicName, key, message);
-        return send;
+    public void send(
+            String topicName, K key, V message, BiConsumer<SendResult<K, V>, Throwable> callback) {
+        log.info("Sending message={} to topic={}", message, topicName);
+        try {
+            CompletableFuture<SendResult<K, V>> kafkaResultFuture =
+                    kafkaTemplate.send(topicName, key, message);
+            kafkaResultFuture.whenComplete(callback);
+        } catch (KafkaException e) {
+            log.error(
+                    "Error on kafka producer with key: {}, message: {} and exception: {}",
+                    key,
+                    message,
+                    e.getMessage(),
+                    e);
+            throw new KafkaProducerException(
+                    "Error on kafka producer with key: " + key + " and message: " + message);
+        }
     }
 
     @PreDestroy
