@@ -6,29 +6,25 @@
     {
       "name": "id",
       "type": {
-        "type": "string",
-        "logicalType": "uuid"
+        "type": "string"
       }
     },
     {
       "name": "sagaId",
       "type": {
-        "type": "string",
-        "logicalType": "uuid"
+        "type": "string"
       }
     },
     {
       "name": "restaurantId",
       "type": {
-        "type": "string",
-        "logicalType": "uuid"
+        "type": "string"
       }
     },
     {
       "name": "orderId",
       "type": {
-        "type": "string",
-        "logicalType": "uuid"
+        "type": "string"
       }
     },
     {
@@ -47,8 +43,15 @@
           "name":"Product",
           "type":"record",
           "fields":[
-            {"name":"id", "type": "string", "logicalType": "uuid"},
-            {"name":"quantity", "type": "int"}
+            {
+              "name":"id",
+              "type": "string",
+              "logicalType": "uuid"
+            },
+            {
+              "name":"quantity",
+              "type": "int"
+            }
           ]
         }
       }

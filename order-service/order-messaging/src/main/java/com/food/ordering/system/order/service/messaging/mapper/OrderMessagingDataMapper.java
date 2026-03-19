@@ -20,11 +20,11 @@ public class OrderMessagingDataMapper {
     public PaymentResponse paymentResponseAvroModelToPaymentResponse(
             PaymentResponseAvroModel paymentResponseAvroModel) {
         return PaymentResponse.builder()
-                .id(paymentResponseAvroModel.getId().toString())
-                .sagaId(paymentResponseAvroModel.getSagaId().toString())
-                .paymentId(paymentResponseAvroModel.getPaymentId().toString())
-                .customerId(paymentResponseAvroModel.getCustomerId().toString())
-                .orderId(paymentResponseAvroModel.getOrderId().toString())
+                .id(paymentResponseAvroModel.getId())
+                .sagaId(paymentResponseAvroModel.getSagaId())
+                .paymentId(paymentResponseAvroModel.getPaymentId())
+                .customerId(paymentResponseAvroModel.getCustomerId())
+                .orderId(paymentResponseAvroModel.getOrderId())
                 .price(paymentResponseAvroModel.getPrice())
                 .createdAt(paymentResponseAvroModel.getCreatedAt())
                 .paymentStatus(
@@ -36,10 +36,10 @@ public class OrderMessagingDataMapper {
     public RestaurantApprovalResponse approvalResponseAvroModelToApprovalResponse(
             RestaurantApprovalResponseAvroModel approvalResponseAvroModel) {
         return RestaurantApprovalResponse.builder()
-                .id(approvalResponseAvroModel.getId().toString())
-                .sagaId(approvalResponseAvroModel.getSagaId().toString())
-                .restaurantId(approvalResponseAvroModel.getRestaurantId().toString())
-                .orderId(approvalResponseAvroModel.getOrderId().toString())
+                .id(approvalResponseAvroModel.getId())
+                .sagaId(approvalResponseAvroModel.getSagaId())
+                .restaurantId(approvalResponseAvroModel.getRestaurantId())
+                .orderId(approvalResponseAvroModel.getOrderId())
                 .createdAt(approvalResponseAvroModel.getCreatedAt())
                 .orderApprovalStatus(
                         OrderApprovalStatus.valueOf(
@@ -52,10 +52,10 @@ public class OrderMessagingDataMapper {
             orderApprovalEventToRestaurantApprovalRequestAvroModel(
                     String sagaId, OrderApprovalEventPayload orderApprovalEventPayload) {
         return RestaurantApprovalRequestAvroModel.newBuilder()
-                .setId(UUID.randomUUID())
-                .setSagaId(UUID.fromString(sagaId))
-                .setOrderId(UUID.fromString(orderApprovalEventPayload.getOrderId()))
-                .setRestaurantId(UUID.fromString(orderApprovalEventPayload.getRestaurantId()))
+                .setId(UUID.randomUUID().toString())
+                .setSagaId(sagaId)
+                .setOrderId(orderApprovalEventPayload.getOrderId())
+                .setRestaurantId(orderApprovalEventPayload.getRestaurantId())
                 .setRestaurantOrderStatus(
                         RestaurantOrderStatus.valueOf(
                                 orderApprovalEventPayload.getRestaurantOrderStatus()))
@@ -79,10 +79,10 @@ public class OrderMessagingDataMapper {
     public PaymentRequestAvroModel orderPaymentEventToPaymentRequestAvroModel(
             String sagaId, OrderPaymentEventPayload orderPaymentEventPayload) {
         return PaymentRequestAvroModel.newBuilder()
-                .setId(UUID.randomUUID())
-                .setSagaId(UUID.fromString(sagaId))
-                .setCustomerId(UUID.fromString(orderPaymentEventPayload.getCustomerId()))
-                .setOrderId(UUID.fromString(orderPaymentEventPayload.getOrderId()))
+                .setId(UUID.randomUUID().toString())
+                .setSagaId(sagaId)
+                .setCustomerId(orderPaymentEventPayload.getCustomerId())
+                .setOrderId(orderPaymentEventPayload.getOrderId())
                 .setPrice(orderPaymentEventPayload.getPrice())
                 .setCreatedAt(orderPaymentEventPayload.getCreatedAt().toInstant())
                 .setPaymentOrderStatus(
@@ -93,7 +93,7 @@ public class OrderMessagingDataMapper {
 
     public CustomerModel customerAvroModeltoCustomerModel(CustomerAvroModel customerAvroModel) {
         return CustomerModel.builder()
-                .id(customerAvroModel.getId().toString())
+                .id(customerAvroModel.getId())
                 .username(customerAvroModel.getUsername())
                 .firstName(customerAvroModel.getFirstName())
                 .lastName(customerAvroModel.getLastName())

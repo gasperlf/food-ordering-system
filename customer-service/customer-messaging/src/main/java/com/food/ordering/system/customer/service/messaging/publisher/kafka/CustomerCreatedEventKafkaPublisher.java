@@ -38,7 +38,7 @@ public class CustomerCreatedEventKafkaPublisher implements CustomerMessagePublis
 
             kafkaProducer.send(
                     customerServiceConfigData.getCustomerTopicName(),
-                    customerAvroModel.getId().toString(),
+                    customerAvroModel.getId(),
                     customerAvroModel,
                     getCallback(
                             customerServiceConfigData.getCustomerTopicName(), customerAvroModel));
